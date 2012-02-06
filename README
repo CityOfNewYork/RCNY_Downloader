@@ -1,0 +1,29 @@
+# RCNY downloader by Andrew Nicklin (@technickle)
+#
+# Downloads the Rules of the City of New York (RCNY) to a local folder; converts to XML
+#   Overwrites files if they already exist.
+#   Each rule is placed into a separate XML file.
+#   Errors while not handling section content are always fatal.
+#   <section_content> tag holds HTML fragment as XML CDATA.
+#
+# KNOWN ISSUES
+#   does not handle images referenced within pages (which do exist)
+#   first and last pages will have truncated <section_content>
+# 
+# usage: ruby rcny_download.rb [titlenode.txt URL] [local_path]
+#
+# How it works:
+#   download the rcny master tree (titlenodes.txt) file
+# 	for each item in file
+#		note the title and agency
+#		parse the referenced frame html files (Title1eftframe.htm) 
+#		parse the nodedata parameter file (<param name="Nodedata" value="title1_tree.txt">)
+#       download the notedata (title1_tree.txt)
+#		for each item in the file (ignoring irrelevant lines)
+#			note the chapter and subchapter
+#			note the section number and section title
+#			identify and download the referenced content file
+#			extract the section content from HTML (clip top & bottom lines by count)
+#			save everything to an XML file
+#		loop
+#	loop
